@@ -42,7 +42,7 @@ def main(argv):
                 sys.exit()
         else:
                 for opt, arg in opts:
-                        sys.stdout.write("opt " + opt + " arg " + arg + '\n')
+                        #sys.stdout.write("opt " + opt + " arg " + arg + '\n')
                         if opt in ('-h', "--help"):
                                 sys.stdout.write('sqloncsv --infile1 cc-ipc.csv --query "update \'phones\' set `DEVICE NAME` = \'NEWNAME\'"\n')
                                 sys.exit()
@@ -64,7 +64,7 @@ def main(argv):
                                 query = arg
                         elif opt in ("u", "--updatequery"):
                                 updatequery = arg
-                                sys.stdout.write("updatequery " + updatequery + '\n')
+                                #sys.stdout.write("updatequery " + updatequery + '\n')
                         elif opt in ("l", "--loglevel"):
                                 loglevel = arg.upper()
                                 logger.critical('log level requested is ' + loglevel)
@@ -108,15 +108,17 @@ def executesql():
         con = csv_database.connect()
 
         if isupdate:
-                sys.stdout.write("Update SQL Query " + updatequery + '\n')
-                logger.critical("Update SQL Query " + updatequery)
+                sys.stdout.write("Update SQL Query \"" + updatequery + '\"\n')
+                logger.critical("Update SQL Query \"" + updatequery + "\"")
                 rs = con.execute(updatequery)
 
-        sys.stdout.write("SQL Query " + query +'\n')
-        logger.critical("SQL Qjery " + query)
+        sys.stdout.write("SQL Query \"" + query + '\"\n')
+        logger.critical("SQL Qjery \"" + query + "\"")
         df1a = pd.read_sql(query, con)
         df1a.to_csv(outfile, index=False)
+        con.close()
         #df1a.to_csv(outfile)
+        csv_database.dispose()
 
 def processinputfiles():
         global infile1, infile2, infile3, infile4, infile5, query, csv_database, outfile
@@ -145,9 +147,9 @@ def loadfiletodb(file):
 def removedbfile():
         try:
                 os.remove("csv_database.db")
-                sys.stdout.write("db file removed" + '\n')
+                sys.stdout.write("Temp DB file removed" + '\n')
         except:
-                sys.stdout.write("db file does not exist" + '\n')
+                sys.stdout.write("Temp DB file does not exist" + '\n')
 
 if __name__ == "__main__":
         main(sys.argv[1:])
