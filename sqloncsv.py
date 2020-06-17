@@ -108,12 +108,21 @@ def executesql():
         con = csv_database.connect()
 
         if isupdate:
-                sys.stdout.write("Update SQL Query \"" + updatequery + '\"\n')
+                sys.stdout.write("\nUpdate SQL Query \"" + updatequery + '\"\n')
                 logger.critical("Update SQL Query \"" + updatequery + "\"")
                 rs = con.execute(updatequery)
+                #changes = con.execute("SELECT changes()")
+                #sys.stdout.write("changes " + str(changes) + "\n")
+                #df1b = pd.read_sql("SELECT changes()", con)
+                #sys.stdout.write("\nRows Updated " + str(df1b.iloc[0]) + "\n\n")
+                print("\nUpdates: " + str(rs.rowcount) + "\n")
+                #print(df1b)
+                #for row in rs:
+                #        sys.stdout.write(str(row) + "\n")
+                #sys.stdout.write("\n" + str(con.rowcount) + " rows updated" + "\n\n")
 
-        sys.stdout.write("SQL Query \"" + query + '\"\n')
-        logger.critical("SQL Qjery \"" + query + "\"")
+        sys.stdout.write("\nSQL Query \"" + query + '\"\n')
+        logger.critical("SQL Query \"" + query + "\"")
         df1a = pd.read_sql(query, con)
         df1a.to_csv(outfile, index=False)
         con.close()
