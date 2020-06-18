@@ -121,7 +121,7 @@ def executesql():
                 #        sys.stdout.write(str(row) + "\n")
                 #sys.stdout.write("\n" + str(con.rowcount) + " rows updated" + "\n\n")
 
-        sys.stdout.write("\nSQL Query \"" + query + '\"\n')
+        sys.stdout.write("\nSQL Query \"" + query + '\"\n\n')
         logger.critical("SQL Query \"" + query + "\"")
         df1a = pd.read_sql(query, con)
         df1a.to_csv(outfile, index=False)
