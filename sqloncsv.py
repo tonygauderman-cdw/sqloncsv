@@ -150,7 +150,7 @@ def processinputfiles():
 
 def loadfiletodb(file):
         global csv_database
-        for df1 in pd.read_csv(file, dtype=str, iterator=True, index_col=1):
+        for df1 in pd.read_csv(file, dtype=str, iterator=True, index_col=1, skipinitialspace = True):
                 df1.to_sql(file, csv_database, if_exists='replace')
 
 def removedbfile():
